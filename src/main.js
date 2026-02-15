@@ -16,12 +16,16 @@ function handleSubmit(event) {
   clearGallery();
   showLoader();
   const userValue = event.target.elements.search_text.value.trim();
+  if (userValue === '') {
+    hideLoader();
+    return;
+  }
   getImagesByQuery(userValue)
     .then(data => {
-      if (data.data.hits.length === 0) {
+      if (data.hits.length === 0) {
         throw new Error();
       }
-      createGallery(data.data.hits);
+      createGallery(data.hits);
     })
     .catch(error => {
       iziToast.error({
